@@ -89,6 +89,7 @@ SessChannel <- R6::R6Class(
             if (!is.null(method)) {
                 logger$info("method: ", method)
             }
+            logger$info("DEBUG"); logger$info(message$format)
             self$ws$send(message$format())
             if (inherits(message, "Request") && !is.null(callback)) {
                 id <- message$id
@@ -158,6 +159,7 @@ SessChannel <- R6::R6Class(
             }
         },
         handle_response = function(response) {
+            logger$info("DEBUG handle_response")
             id <- response$id
             callback <- tryCatch(
                 self$request_callbacks$pop(as.character(id)),

@@ -78,6 +78,12 @@ Response <- R6::R6Class("Response",
                 payload$error <- self$error
             }
             jsonlite::toJSON(payload, auto_unbox = TRUE, null = "null", force = TRUE)
+        },
+        format = function() {
+            # json <- self$to_json()
+            # logger$info("FORMAT"); logger$info(json)
+            # json
+            paste0(c("FORMAT", self$result, "END"), collapse = "_")
         }
     )
 )
