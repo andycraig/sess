@@ -118,6 +118,7 @@ SessChannel <- R6::R6Class(
             }
         },
         handle_request = function(request) {
+            ws <- NULL
             id <- request$id
             method <- request$method
             params <- request$params
@@ -125,7 +126,7 @@ SessChannel <- R6::R6Class(
                 logger$info("handling request: ", method)
                 tryCatchStack({
                     dispatch <- self$request_handlers[[method]]
-                    dispatch(self, id, params)
+                    dispatch(self, ws, id, params)
                 },
                 error = function(e) {
                     logger$info("internal error:", e)
@@ -178,7 +179,8 @@ SessChannel <- R6::R6Class(
 
 SessChannel$set("public", "register_handlers", function() {
     self$request_handlers <- list(
-        initialize = on_initialize
+        initialize = on_initialize,
+        eval1 = on_eval1
     )
 
     self$notification_handlers <- list(
